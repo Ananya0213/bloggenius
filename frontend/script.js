@@ -1,3 +1,5 @@
+// script.js
+
 async function generateContent() {
     const prompt = document.getElementById('prompt').value.trim();
     const outputDiv = document.getElementById('output');
@@ -10,7 +12,8 @@ async function generateContent() {
     outputDiv.innerText = "Generating...";
 
     try {
-        const response = await fetch('http://localhost:5000/generate', {
+        // --- THIS IS THE UPDATED LINE ---
+        const response = await fetch('https://bloggenius-backend.onrender.com/generate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,10 +26,11 @@ async function generateContent() {
         if (response.ok) {
             outputDiv.innerText = data.blog || "No content generated.";
         } else {
-            outputDiv.innerText = data.error || "Error generating content.";
+            // Display the specific error message from the backend
+            outputDiv.innerText = `Error: ${data.error || "Unknown error occurred."}`;
         }
     } catch (error) {
-        outputDiv.innerText = "Network error. Is the backend running on port 5000?";
+        outputDiv.innerText = "Network error. Could not connect to the server.";
         console.error("Error:", error);
     }
 }
